@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Injector } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Injector, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'vm-vote',
@@ -10,12 +10,16 @@ export class VoteComponent implements OnInit {
   @Input() votes: number = 0;
   @Output() voteChanges: EventEmitter<number> = new EventEmitter<number>();
 
+  constructor(private changeDetectorRef: ChangeDetectorRef){}
+
   upvote() {
     this.voteChanges.emit(this.votes = ++this.votes);
+    this.changeDetectorRef.detectChanges();
   }
 
   downvote() {
     this.voteChanges.emit(this.votes = --this.votes);
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnChanges() {
